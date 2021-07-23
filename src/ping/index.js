@@ -62,7 +62,7 @@ async function ping (node, peer) {
  * @param {Libp2p} node
  */
 function mount (node) {
-  node.handle(PROTOCOL, ({ stream }) => pipe(stream, stream))
+  node.handle(`/${node._config.protocol}/${PROTOCOL}`, ({ stream }) => pipe(stream, stream))
 }
 
 /**
@@ -71,7 +71,7 @@ function mount (node) {
  * @param {Libp2p} node
  */
 function unmount (node) {
-  node.unhandle(PROTOCOL)
+  node.unhandle(`/${node._config.protocol}/${PROTOCOL}`)
 }
 
 exports = module.exports = ping

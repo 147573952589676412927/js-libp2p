@@ -215,7 +215,6 @@ class ConnectionManager extends EventEmitter {
     const peerIdStr = peerId.toB58String()
     const storedConn = this.connections.get(peerIdStr)
 
-    this.emit('peer:connect', connection)
     if (storedConn) {
       storedConn.push(connection)
     } else {
@@ -229,6 +228,7 @@ class ConnectionManager extends EventEmitter {
     }
 
     this._checkMaxLimit('maxConnections', this.size)
+    this.emit('peer:connect', connection)
   }
 
   /**

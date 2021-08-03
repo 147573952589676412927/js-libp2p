@@ -39,6 +39,7 @@ class Upgrader {
    * @param {import('./metrics')} [options.metrics]
    * @param {Map<string, Crypto>} [options.cryptos]
    * @param {Map<string, MuxerFactory>} [options.muxers]
+   * @param {(peerId: PeerId) => boolean} options.remotePeerValidator
    * @param {(connection: Connection) => void} options.onConnection - Called when a connection is upgraded
    * @param {(connection: Connection) => void} options.onConnectionEnd
    */
@@ -47,6 +48,7 @@ class Upgrader {
     metrics,
     cryptos = new Map(),
     muxers = new Map(),
+    remotePeerValidator = () => true,
     onConnectionEnd = () => {},
     onConnection = () => {}
   }) {
@@ -59,6 +61,7 @@ class Upgrader {
     this.protocols = new Map()
     this.onConnection = onConnection
     this.onConnectionEnd = onConnectionEnd
+    this.remotePeerValidator = remotePeerValidator
   }
 
   /**
@@ -99,6 +102,10 @@ class Upgrader {
         remotePeer,
         protocol: cryptoProtocol
       } = await this._encryptInbound(this.localPeer, protectedConn, this.cryptos))
+
+      if (!await this.remotePeerValidator(remotePeer)) {
+        throw errCode('Invalid remotePeer', codes.ERR_INVALID_PEER)
+      }
 
       // Multiplex the connection
       if (this.muxers.size) {
@@ -174,6 +181,10 @@ class Upgrader {
         remotePeer,
         protocol: cryptoProtocol
       } = await this._encryptOutbound(this.localPeer, protectedConn, remotePeerId, this.cryptos))
+
+      if (!await this.remotePeerValidator(remotePeer)) {
+        throw errCode('Invalid remotePeer', codes.ERR_INVALID_PEER)
+      }
 
       // Multiplex the connection
       if (this.muxers.size) {

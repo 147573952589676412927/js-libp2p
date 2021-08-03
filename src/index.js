@@ -224,6 +224,7 @@ class Libp2p extends EventEmitter {
     this.upgrader = new Upgrader({
       localPeer: this.peerId,
       metrics: this.metrics,
+      remotePeerValidator: this._config.remotePeerValidator,
       onConnection: (connection) => this.connectionManager.onConnect(connection),
       onConnectionEnd: (connection) => this.connectionManager.onDisconnect(connection)
     })

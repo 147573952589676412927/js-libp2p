@@ -10,6 +10,7 @@ const RelayConstants = require('./circuit/constants')
 
 const { publicAddressesFirst } = require('libp2p-utils/src/address-sort')
 const { FaultTolerance } = require('./transport-manager')
+const PeerId = require('peer-id')
 
 /**
  * @typedef {import('multiaddr').Multiaddr} Multiaddr
@@ -100,7 +101,12 @@ const DefaultConfig = {
         maxListeners: 2
       }
     },
-    transport: {}
+    upgrade: {
+      remotePeerValidator: async (/** @type PeerId */peerId) => true,
+    },
+    transport: {
+      preDialPeerValidator: async (/** @type PeerId */peerId) => true,
+    }
   }
 }
 

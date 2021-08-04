@@ -107,7 +107,7 @@ class TransportManager {
       throw errCode(new Error(`No transport available for address ${String(ma)}`), codes.ERR_TRANSPORT_UNAVAILABLE)
     }
 
-    if (!await this.libp2p._config.transport.preDialPeerValidator(ma.getPeerId())) {
+    if (!await this.libp2p._config.transport.remotePeerValidator(ma.getPeerId())) {
       throw errCode(new Error(`Invalid peerId ${ma.getPeerId()}`), codes.ERR_INVALID_PEER)
     }
 

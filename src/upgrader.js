@@ -39,7 +39,7 @@ class Upgrader {
    * @param {import('./metrics')} [options.metrics]
    * @param {Map<string, Crypto>} [options.cryptos]
    * @param {Map<string, MuxerFactory>} [options.muxers]
-   * @param {(peerId: PeerId) => boolean} options.remotePeerValidator
+   * @param {(peerId: PeerId) => Promise<boolean>} options.remotePeerValidator
    * @param {(connection: Connection) => void} options.onConnection - Called when a connection is upgraded
    * @param {(connection: Connection) => void} options.onConnectionEnd
    */
@@ -48,7 +48,7 @@ class Upgrader {
     metrics,
     cryptos = new Map(),
     muxers = new Map(),
-    remotePeerValidator = () => true,
+    remotePeerValidator,
     onConnectionEnd = () => {},
     onConnection = () => {}
   }) {

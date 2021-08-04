@@ -101,11 +101,8 @@ const DefaultConfig = {
         maxListeners: 2
       }
     },
-    upgrade: {
-      remotePeerValidator: async (/** @type PeerId */peerId) => true,
-    },
     transport: {
-      preDialPeerValidator: async (/** @type PeerId */peerId) => true,
+      remotePeerValidator: async (/** @type PeerId */peerId) => true,
     }
   }
 }

@@ -102,7 +102,7 @@ const DefaultConfig = {
       }
     },
     transport: {
-      remotePeerFilter: async (/** @type PeerId */peerId) => true,
+      remotePeerFilter: (/** @type PeerId */peerId) => true,
     }
   }
 }

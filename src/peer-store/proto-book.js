@@ -10,7 +10,7 @@ const PeerId = require('peer-id')
 const Book = require('./book')
 
 const {
-  codes: { ERR_INVALID_PARAMETERS }
+  codes: { ERR_INVALID_PARAMETERS, ERR_INVALID_PEER }
 } = require('../errors')
 
 /**
@@ -65,6 +65,10 @@ class ProtoBook extends Book {
       throw errcode(new Error('peerId must be an instance of peer-id'), ERR_INVALID_PARAMETERS)
     }
 
+    if (!this._ps.remotePeerFilter(peerId)) {
+      throw errcode(new Error('Invalid PeerId'), ERR_INVALID_PEER)
+    }
+
     if (!protocols) {
       log.error('protocols must be provided to store data')
       throw errcode(new Error('protocols must be provided'), ERR_INVALID_PARAMETERS)
@@ -105,6 +109,10 @@ class ProtoBook extends Book {
     if (!PeerId.isPeerId(peerId)) {
       log.error('peerId must be an instance of peer-id to store data')
       throw errcode(new Error('peerId must be an instance of peer-id'), ERR_INVALID_PARAMETERS)
+    }
+
+    if (!this._ps.remotePeerFilter(peerId)) {
+      throw errcode(new Error('Invalid PeerId'), ERR_INVALID_PEER)
     }
 
     if (!protocols) {

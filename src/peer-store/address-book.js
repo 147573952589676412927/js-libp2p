@@ -13,7 +13,7 @@ const Book = require('./book')
 const PeerRecord = require('../record/peer-record')
 
 const {
-  codes: { ERR_INVALID_PARAMETERS }
+  codes: { ERR_INVALID_PARAMETERS, ERR_INVALID_PEER }
 } = require('../errors')
 const Envelope = require('../record/envelope')
 
@@ -110,6 +110,10 @@ class AddressBook extends Book {
     }
 
     const addresses = this._toAddresses(peerRecord.multiaddrs, true)
+
+    if (!this._ps.remotePeerFilter(peerId)) {
+      return false;
+    }
 
     // Replace unsigned addresses by the new ones from the record
     // TODO: Once we have ttls for the addresses, we should merge these in.
@@ -224,6 +228,10 @@ class AddressBook extends Book {
     if (!PeerId.isPeerId(peerId)) {
       log.error('peerId must be an instance of peer-id to store data')
       throw errcode(new Error('peerId must be an instance of peer-id'), ERR_INVALID_PARAMETERS)
+    }
+
+    if (!this._ps.remotePeerFilter(peerId)) {
+      throw errcode(new Error('Invalid PeerId'), ERR_INVALID_PEER)
     }
 
     const addresses = this._toAddresses(multiaddrs)

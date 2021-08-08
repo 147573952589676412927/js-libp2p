@@ -43,12 +43,15 @@ class PeerStore extends EventEmitter {
    *
    * @param {object} options
    * @param {PeerId} options.peerId
+   * @param {(peerId: PeerId) => boolean} options.remotePeerFilter
    * @class
    */
-  constructor ({ peerId }) {
+  constructor ({ peerId, remotePeerFilter }) {
     super()
 
     this._peerId = peerId
+
+    this.remotePeerFilter = remotePeerFilter || function() {return true}
 
     /**
      * AddressBook containing a map of peerIdStr to Address.

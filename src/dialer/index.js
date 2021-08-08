@@ -119,7 +119,7 @@ class Dialer {
    */
   async connectToPeer (peer, options = {}) {
     const { id } = getPeer(peer);
-    if (!await this.transportManager.libp2p._config.transport.remotePeerFilter(id)) {
+    if (!this.transportManager.libp2p._config.transport.remotePeerFilter(id)) {
       throw errCode(new Error('The dial request has no valid peer'), codes.ERR_INVALID_PEER)
     }
     const dialTarget = await this._createCancellableDialTarget(peer)

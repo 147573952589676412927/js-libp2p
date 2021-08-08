@@ -12,7 +12,7 @@ const PeerId = require('peer-id')
 const Book = require('./book')
 
 const {
-  codes: { ERR_INVALID_PARAMETERS }
+  codes: { ERR_INVALID_PARAMETERS, ERR_INVALID_PEER }
 } = require('../errors')
 
 /**
@@ -67,6 +67,10 @@ class MetadataBook extends Book {
       throw errcode(new Error('peerId must be an instance of peer-id'), ERR_INVALID_PARAMETERS)
     }
 
+    if (!this._ps.remotePeerFilter(peerId)) {
+      throw errcode(new Error('Invalid PeerId'), ERR_INVALID_PEER)
+    }
+
     if (typeof key !== 'string' || !(value instanceof Uint8Array)) {
       log.error('valid key and value must be provided to store data')
       throw errcode(new Error('valid key and value must be provided'), ERR_INVALID_PARAMETERS)
@@ -89,6 +93,11 @@ class MetadataBook extends Book {
     const id = peerId.toB58String()
     const rec = this.data.get(id) || new Map()
     const recMap = rec.get(key)
+
+    if (!this._ps.remotePeerFilter(peerId)) {
+      log('Invalid PeerId')
+      return;
+    }
 
     // Already exists and is equal
     if (recMap && uint8ArrayEquals(value, recMap)) {

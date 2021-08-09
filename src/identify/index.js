@@ -214,9 +214,7 @@ class IdentifyService {
 
     // TODO: Add and score our observed addr
     log('received observed address of %s', cleanObservedAddr)
-    if (cleanObservedAddr) {
-      this.addressManager.addObservedAddr(cleanObservedAddr)
-    }
+    // this.addressManager.addObservedAddr(observedAddr)
   }
 
   /**

@@ -1,3 +1,26 @@
+## [0.32.3](https://github.com/libp2p/js-libp2p/compare/v0.32.2...v0.32.3) (2021-08-16)
+
+
+### Bug Fixes
+
+* uint8arrays is a dep ([#964](https://github.com/libp2p/js-libp2p/issues/964)) ([ba2b4d4](https://github.com/libp2p/js-libp2p/commit/ba2b4d4b28f1d9940b457de344aed44537f9eabd))
+
+
+
+## [0.32.2](https://github.com/libp2p/js-libp2p/compare/v0.32.1...v0.32.2) (2021-08-13)
+
+
+### Bug Fixes
+
+* browser example ci ([3b33fb4](https://github.com/libp2p/js-libp2p/commit/3b33fb4b73ba8065e432fb59f758fe138fd23d9e))
+
+
+### Features
+
+* custom protocol name ([#962](https://github.com/libp2p/js-libp2p/issues/962)) ([ef24fab](https://github.com/libp2p/js-libp2p/commit/ef24fabf0269fd079888e92eedb458e23ef1c733))
+
+
+
 ## [0.32.1](https://github.com/libp2p/js-libp2p/compare/v0.32.0...v0.32.1) (2021-07-22)
 
 
